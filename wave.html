@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            * {
+                overflow: hidden;
+            }
+            canvas {
+                position: absolute;
+                border: 1px solid black;
+            }
+        </style>
+
+    </head>
+    <body>
+    <body>
+        <canvas id="cvs"></canvas>
+        <script type="module">
+            import {Vector} from "./modules/vector.js";
+            
+            const cvs = document.getElementById("cvs");
+            cvs.width = window.innerWidth - 16;
+            cvs.height = window.innerHeight - 16;
+            const ctx = cvs.getContext("2d");
+
+            const cellSize = 10; // side length of each pixel
+
+            let t = 0;
+
+            let cells = [];
+            let bufferCells = [];
+            for (let i = 0; i < cvs.width / cellSize; i++) {
+                cells.push([]);
+                bufferCells.push([]);
+                for (let j = 0; j < cvs.height / cellSize; j++) {
+                    cells[i].push({u: 0, v: 0});
+                    bufferCells[i].push([]);
+                }
+            }
+
+            cells[Math.floor(cells.length / 2)][Math.floor(cells[0].length / 2)].v = 50;
+            //cells[Math.floor(3 * cells.length / 4)][Math.floor(cells[0].length / 2)].v = 50;
+
+
+            //  Initial state generators
+
+            // Points
+            //cells[Math.floor(cells.length / 2)][Math.floor(cells[0].length / 2)].v = 50;
+            //cells[Math.floor(3 * cells.length / 4)][Math.floor(cells[0].length / 2)].v = -50;
+            //cells[10][10].v = 500;
+
+            // Vertical lines
+            /*for (let i = 1; i < cells[0].length - 1; i++) {
+                cells[Math.floor(cells.length / 2)][i].v = 2;
+                //cells[5][i].v = 5;
+            }*/
+
+            // Horizontal lines
+            /*for (let i = 1; i < cells.length - 1; i++) {
+                cells[i][Math.floor(cells[0].length / 2)].v = -2;
+            }*/
+
+            // Diagonal line top-left to bottom-right
+            /*let prop = cells[0].length / cells.length;
+            for (let i = 1; i < cells.length - 1; i++) {
+                cells[i][Math.floor(prop * i)].v = -2;
+            }*/
+
+            // End generators
+
+            draw();
+
+            function draw() {
+                ctx.clearRect(0, 0, cvs.width, cvs.height);
+
+                // Wave Generators, use with damping!
+
+                //cells[Math.floor(cells.length / 2)][Math.floor(cells[0].length / 2)].u = 10 * Math.cos(15 * Math.sin(0.1 * t) * t);
+
+                //if (t < Math.PI / 2 / 1)
+                    //cells[Math.floor((cells.length / 2 - 1) * Math.cos(1 * t) + cells.length / 2)][Math.floor(cells[0].length / 2)].u = 5;
+
+                //if (t < Math.PI / 2 / 1)
+                    //cells[Math.floor((cells.length / 2 - 1) * Math.cos(1 * t) + cells.length / 2)][Math.floor(cells[0].length / 2)].v = 3 * Math.sin(20 * t);
+
+                //cells[Math.floor((cells[0].length / 2 - 10) * Math.cos(5 * t) + cells.length / 2)][Math.floor((cells[0].length / 2 - 10) * Math.sin(5 * t) + cells[0].length / 2)].v = 1;
+
+                // End Generators
+
+                for (let i = 0; i < cells.length; i++) {
+                    for (let j = 0; j < cells[i].length; j++) {
+                        if (cells[i][j].u >= 0)
+                            ctx.fillStyle = '#' + Math.min(Math.floor(cells[i][j].u * 255), 255).toString(16).padStart(2, '0') + '1100';
+                        else
+                            ctx.fillStyle = '#0011' + Math.min(Math.floor(-cells[i][j].u * 255), 255).toString(16).padStart(2, '0');
+                        ctx.fillRect(i * cellSize, j * cellSize, cellSize, cellSize);
+                    }
+                }
+
+                for (let i = 0; i < cells.length; i++) {
+                    for (let j = 0; j < cells[i].length; j++) {
+                        changeCells(i, j);
+                    }
+                }
+
+                for (let i = 0; i < bufferCells.length; i++) {
+                    for (let j = 0; j < bufferCells[i].length; j++) {
+                        let dt = 0.5;
+                        let dv = combineChanges(bufferCells[i][j]);
+                        cells[i][j].v += dv * dt;
+                        //cells[i][j].u += cells[i][j].v * dt; // standard newton's method integration
+                        cells[i][j].u += cells[i][j].v * dt + 0.5 * dv * dt ** 2; // more accurate integration? looks better
+                        //cells[i][j].v *= 0.99; // Damping
+                        bufferCells[i][j] = [];
+                    }
+                }
+
+                t += 0.01
+
+                requestAnimationFrame(draw);
+            }
+
+            // Add changes to buffer array
+            // Parameters are cell's coordinates
+            function changeCells(x, y) {
+                //bufferCells[x][y].push(-cells[x][y]);
+                if (x != 0 && x != cells.length - 1 && y != 0 && y != cells[x].length - 1) {
+
+                    // More accurate I think
+                    /*let dudx1 = cells[x][y].u - cells[x - 1][y].u;
+                    let dudx2 = cells[x + 1][y].u - cells[x][y].u;
+                    let d2udx2 = dudx2 - dudx1;
+
+                    let dudy1 = cells[x][y].u - cells[x][y - 1].u;
+                    let dudy2 = cells[x][y + 1].u - cells[x][y].u;
+                    let d2udy2 = dudy2 - dudy1;
+
+                    bufferCells[x][y].push(d2udx2 + d2udy2);*/
+
+                    let sum = 0;
+                    sum += cells[x - 1][y].u * 2;
+                    sum += cells[x + 1][y].u * 2;
+                    sum += cells[x][y - 1].u * 2;
+                    sum += cells[x][y + 1].u * 2;
+                    sum += cells[x - 1][y - 1].u;
+                    sum += cells[x - 1][y + 1].u;
+                    sum += cells[x + 1][y - 1].u;
+                    sum += cells[x + 1][y + 1].u;
+                    sum /= 12;
+                    bufferCells[x][y].push(sum - cells[x][y].u);
+
+                    /*bufferCells[x - 1][y - 1].push(cells[x][y] / 12);
+                    bufferCells[x - 1][y + 1].push(cells[x][y] / 12);
+                    bufferCells[x - 1][y].push(cells[x][y] / 6);
+                    bufferCells[x + 1][y - 1].push(cells[x][y] / 12);
+                    bufferCells[x + 1][y + 1].push(cells[x][y] / 12);
+                    bufferCells[x + 1][y].push(cells[x][y] / 6);
+                    bufferCells[x][y - 1].push(cells[x][y] / 6);
+                    bufferCells[x][y + 1].push(cells[x][y] / 6);*/
+                } else if (cells[x][y].u != 0) {
+                    // Keep edge cells empty because edge cells never change
+                    // bufferCells not needed, can change cell directly
+                    cells[x][y].u = 0;
+                    cells[x][y].v = 0;
+                }
+            }
+
+            // Dictates what to do when a cell has multiple changes at the same time
+            // Takes in an array of changes, returns final value of a cell
+            function combineChanges(changes) {
+                // Example
+                let sum = 0;
+                for (let change of changes) {
+                    sum += change;
+                }
+                return sum;
+            }
+
+        </script>
+    </body>
+</html>
