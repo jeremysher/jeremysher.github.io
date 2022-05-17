@@ -75,22 +75,10 @@
             cvs.height = window.innerHeight;
             const ctx = cvs.getContext("2d");
 
-            const cellSize = 10; // side length of each pixel
+            let cellSize, t, cells, bufferCells;
 
-            let t = 0;
-
-            let cells = [];
-            let bufferCells = [];
-            for (let i = 0; i < cvs.width / cellSize; i++) {
-                cells.push([]);
-                bufferCells.push([]);
-                for (let j = 0; j < cvs.height / cellSize; j++) {
-                    cells[i].push({u: 0, v: 0});
-                    bufferCells[i].push([]);
-                }
-            }
-
-            cells[Math.floor(cells.length / 2)][Math.floor(cells[0].length / 2)].v = 50;
+            init();
+            
             //cells[Math.floor(3 * cells.length / 4)][Math.floor(cells[0].length / 2)].v = 50;
 
 
@@ -121,6 +109,25 @@
             // End generators
 
             draw();
+
+            function init() {
+                cellSize = 10; // side length of each pixel
+
+                t = 0;
+
+                cells = [];
+                bufferCells = [];
+                for (let i = 0; i < cvs.width / cellSize; i++) {
+                    cells.push([]);
+                    bufferCells.push([]);
+                    for (let j = 0; j < cvs.height / cellSize; j++) {
+                        cells[i].push({u: 0, v: 0});
+                        bufferCells[i].push([]);
+                    }
+                }
+
+                cells[Math.floor(cells.length / 2)][Math.floor(cells[0].length / 2)].v = 50;
+            }
 
             function draw() {
                 ctx.clearRect(0, 0, cvs.width, cvs.height);
