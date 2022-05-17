@@ -5,12 +5,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>wave</title>
         <style>
-            * {
-                overflow: hidden;
-            }
-            canvas {
-                position: absolute;
-                border: 1px solid black;
+            #cvs {
+                position: fixed;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100vh;
             }
         </style>
 
@@ -21,8 +21,8 @@
             import {Vector} from "./modules/vector.js";
             
             const cvs = document.getElementById("cvs");
-            cvs.width = window.innerWidth - 16;
-            cvs.height = window.innerHeight - 16;
+            cvs.width = window.innerWidth;
+            cvs.height = window.innerHeight;
             const ctx = cvs.getContext("2d");
 
             const cellSize = 10; // side length of each pixel
