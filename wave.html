@@ -32,9 +32,8 @@
                 transition: top 0.3s;
                 position: fixed;
                 display: block;
-                background-color: #68A;
+                background-color: rgba(102,136, 170, 0.5);
                 z-index: 1000;
-                opacity: 50%
             }
             
             #scroller {
@@ -45,12 +44,34 @@
                 position: absolute;
                 overflow-y: scroll;
             }
+
+            #menu a {
+                text-decoration: none;
+                margin: 10px;
+            }
+
+            #menu a:link {
+                color:rgb(214, 214, 214);
+            }
+
+            #menu a:visited {
+                color:rgb(214, 214, 214);
+            }
+
+            #menu a:hover {
+                color:rgb(255, 255, 255)
+            }
+
+            #menu a:active {
+                color: cyan;
+            }
+
         </style>
 
     </head>
     <body>
         <div id="menu">
-
+            <a href="index.html">Home</a>
         </div>
         <div id="scroller"></div>
         <canvas id="cvs"></canvas>
@@ -70,6 +91,8 @@
             }
 
 
+
+
             const cvs = document.getElementById("cvs");
             cvs.width = window.innerWidth;
             cvs.height = window.innerHeight;
@@ -78,7 +101,7 @@
             let cellSize, t, cells, bufferCells;
 
             init();
-            
+
             //cells[Math.floor(3 * cells.length / 4)][Math.floor(cells[0].length / 2)].v = 50;
 
 
