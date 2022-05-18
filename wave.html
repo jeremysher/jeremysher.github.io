@@ -74,8 +74,14 @@
             <a href="index.html">Home</a>
             <input type="button" id="clear" value="Clear Initial State">
             <input type="button" id="restart" value="Restart">
-            <div id="init_state"></div>
-            <input type="button" onclick="" value="Add Initial State">
+            <table id="init_state">
+                <caption>Initial State</caption>
+                <tr id="table_headers"></tr>
+                <tr id="row1"></tr>
+                <tr id="row2"></tr>
+                <tr id="row3"></tr>
+            </table>
+            <input type="button" id="add_point" value="Add Point">
         </div>
         <div id="scroller"></div>
         <canvas id="cvs"></canvas>
@@ -96,6 +102,12 @@
 
             document.getElementById("restart").addEventListener("click", init);
             document.getElementById("clear").addEventListener("click", clearInitState);
+            document.getElementById("add_point").addEventListener("click", addInitPointClicked);
+
+            const tableHeaders = document.getElementById("table_headers");
+            const row1 = document.getElementById("row1");
+            const row2 = document.getElementById("row2");
+            const row3 = document.getElementById("row3");
 
 
             const cvs = document.getElementById("cvs");
@@ -118,9 +130,12 @@
             }
 
             let initStates = [];
+            let tableLength = 0;
 
             // Default initial state, one point at center
             addInitPoint(Math.floor(cells.length / 2), Math.floor(cells[0].length / 2), 50);
+
+            addTableEntry(initStates[0], 0);
 
             init();
 
@@ -165,6 +180,24 @@
                         cells[i][j].v = 0;
                         bufferCells[i][j] = [];
                     }
+                }
+
+                // update initial states from table
+                for (let i = 0; i < tableLength; i++) {
+                    let xInput = document.getElementById("xPos" + i);
+                    let yInput = document.getElementById("yPos" + i);
+                    let newX = parseInt(xInput.value);
+                    let newY = parseInt(yInput.value);
+                    if (inBounds(newX, newY)) {
+                        initStates[i].x = newX;
+                        initStates[i].y = newY;
+                    }
+                    xInput.value = initStates[i].x;
+                    yInput.value = initStates[i].y;
+
+                    let magInput = document.getElementById("mag" + i);
+                    initStates[i].mag = parseFloat(magInput.value);
+
                 }
 
                 for (let state of initStates) {
@@ -290,6 +323,73 @@
 
             function clearInitState() {
                 initStates = [];
+                while (tableHeaders.hasChildNodes()) {
+                    tableHeaders.removeChild(tableHeaders.firstChild);
+                }
+                while (row1.hasChildNodes()) {
+                    row1.removeChild(row1.firstChild);
+                }
+                while (row2.hasChildNodes()) {
+                    row2.removeChild(row2.firstChild);
+                }
+                while (row3.hasChildNodes()) {
+                    row3.removeChild(row3.firstChild);
+                }
+                tableLength = 0;
+            }
+
+            // initState is an object in the initStates array
+            function addTableEntry(initState) {
+                let headerText = document.createTextNode(initState.type);
+                let header = document.createElement("th");
+                header.appendChild(headerText);
+                tableHeaders.appendChild(header);
+
+                let position = document.createElement("td");
+                let xPosLabel = document.createElement("label");
+                xPosLabel.setAttribute("for", "xPos" + tableLength);
+                xPosLabel.appendChild(document.createTextNode("x: "));
+                let xPosInput = document.createElement("input");
+                xPosInput.setAttribute("type", "text");
+                xPosInput.setAttribute("id", "xPos" + tableLength);
+                xPosInput.setAttribute("value", initState.x);
+                xPosInput.setAttribute("size", "1");
+
+                let yPosLabel = document.createElement("label");
+                yPosLabel.setAttribute("for", "yPos" + tableLength);
+                yPosLabel.appendChild(document.createTextNode(" y: "));
+                let yPosInput = document.createElement("input");
+                yPosInput.setAttribute("type", "text");
+                yPosInput.setAttribute("id", "yPos" + tableLength);
+                yPosInput.setAttribute("value", initState.y);
+                yPosInput.setAttribute("size", "1");
+
+                position.appendChild(xPosLabel);
+                position.appendChild(xPosInput);
+                position.appendChild(yPosLabel);
+                position.appendChild(yPosInput);
+                row1.appendChild(position);
+
+                let magnitude = document.createElement("td");
+                let magLabel = document.createElement("label");
+                magLabel.setAttribute("for", "mag" + tableLength);
+                magLabel.appendChild(document.createTextNode("Intensity: "));
+                let magInput = document.createElement("input");
+                magInput.setAttribute("type", "text");
+                magInput.setAttribute("id", "mag" + tableLength);
+                magInput.setAttribute("value", initState.mag);
+                magInput.setAttribute("size", "1");
+
+                magnitude.appendChild(magLabel);
+                magnitude.appendChild(magInput);
+                row2.appendChild(magnitude);
+
+                tableLength++;
+            }
+
+            function addInitPointClicked() {
+                addInitPoint(0, 0, 0);
+                addTableEntry(initStates[initStates.length - 1]);
             }
 
             function inBounds(_x, _y) {
