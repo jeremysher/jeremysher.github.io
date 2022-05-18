@@ -100,6 +100,11 @@
 
             let cellSize, t, cells, bufferCells;
 
+            let initStates = [];
+
+            // Default initial state, one point at center
+            addInitPoint(Math.floor(cells.length / 2), Math.floor(cells[0].length / 2), 50);
+
             init();
 
             //cells[Math.floor(3 * cells.length / 4)][Math.floor(cells[0].length / 2)].v = 50;
@@ -149,7 +154,14 @@
                     }
                 }
 
-                cells[Math.floor(cells.length / 2)][Math.floor(cells[0].length / 2)].v = 50;
+                for (let state of initStates) {
+                    if (state.type == "point") {
+                        if (inBounds(x, y)) {
+                            cells[state.x][state.y].v = state.mag;
+                        }
+                    }
+                }
+
             }
 
             function draw() {
@@ -256,6 +268,15 @@
                     sum += change;
                 }
                 return sum;
+            }
+
+            function addInitPoint(_x, _y, _mag) {
+                if (!inBounds(_x, _y)) return;
+                initStates.push({type: "point", x: _x, y: _y, mag: _mag});
+            }
+
+            function inBounds(_x, _y) {
+                return _x >= 0 && x < cells.length && y >= 0 && y < cells[0].length;
             }
 
         </script>
