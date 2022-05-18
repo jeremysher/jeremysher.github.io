@@ -72,6 +72,10 @@
     <body>
         <div id="menu">
             <a href="index.html">Home</a>
+            <input type="button" id="clear" value="Clear Initial State">
+            <input type="button" id="restart" value="Restart">
+            <div id="init_state"></div>
+            <input type="button" onclick="" value="Add Initial State">
         </div>
         <div id="scroller"></div>
         <canvas id="cvs"></canvas>
@@ -90,7 +94,8 @@
                 prevScrollPos = currentScrollPos;
             }
 
-
+            document.getElementById("restart").addEventListener("click", init);
+            document.getElementById("clear").addEventListener("click", clearInitState);
 
 
             const cvs = document.getElementById("cvs");
@@ -98,7 +103,19 @@
             cvs.height = window.innerHeight;
             const ctx = cvs.getContext("2d");
 
-            let cellSize, t, cells, bufferCells;
+            let cellSize = 10; // side length of each pixel
+            let t = 0;
+            let cells = [];
+            let bufferCells = [];
+
+            for (let i = 0; i < cvs.width / cellSize; i++) {
+                cells.push([]);
+                bufferCells.push([]);
+                for (let j = 0; j < cvs.height / cellSize; j++) {
+                    cells[i].push({u: 0, v: 0});
+                    bufferCells[i].push([]);
+                }
+            }
 
             let initStates = [];
 
@@ -139,24 +156,20 @@
             draw();
 
             function init() {
-                cellSize = 10; // side length of each pixel
-
+                
                 t = 0;
 
-                cells = [];
-                bufferCells = [];
-                for (let i = 0; i < cvs.width / cellSize; i++) {
-                    cells.push([]);
-                    bufferCells.push([]);
-                    for (let j = 0; j < cvs.height / cellSize; j++) {
-                        cells[i].push({u: 0, v: 0});
-                        bufferCells[i].push([]);
+                for (let i = 0; i < cells.length; i++) {
+                    for (let j = 0; j < cells[0].length; j++) {
+                        cells[i][j].u = 0;
+                        cells[i][j].v = 0;
+                        bufferCells[i][j] = [];
                     }
                 }
 
                 for (let state of initStates) {
                     if (state.type == "point") {
-                        if (inBounds(x, y)) {
+                        if (inBounds(state.x, state.y)) {
                             cells[state.x][state.y].v = state.mag;
                         }
                     }
@@ -275,8 +288,12 @@
                 initStates.push({type: "point", x: _x, y: _y, mag: _mag});
             }
 
+            function clearInitState() {
+                initStates = [];
+            }
+
             function inBounds(_x, _y) {
-                return _x >= 0 && x < cells.length && y >= 0 && y < cells[0].length;
+                return _x >= 0 && _x < cells.length && _y >= 0 && _y < cells[0].length;
             }
 
         </script>
