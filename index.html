@@ -5,15 +5,156 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jeremy Sher</title>
     <style>
-      h1 {
-        text-align: center;
+        
+      @import url('https://fonts.googleapis.com/css2?family=Fira+Code&display=swap');
+      @import url('https://fonts.googleapis.com/css2?family=Syne+Mono&display=swap');
+
+      * {
+        box-sizing: border-box;
+        font-family: 'Fira Code', monospace;
       }
+
+      body {
+          margin: 0;
+      }
+
+      #header {
+        background-color: #C0C0C0;
+        width: 100%;
+        height: 110px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      }
+
+      #header * {
+          margin: 0;
+          padding: 5px;
+      }
+
+      #header h1 {
+        font-family: 'Syne Mono', monospace;
+        font-size: 50px;
+      }
+
+      #navbar {
+        background-color: #000000;
+        top: 0;
+        position: sticky;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      #navbar a {
+          text-decoration: none;
+          padding: 15px;
+          color: #DDDDDD;
+      }
+
+      #navbar a:hover {
+          color: #FFFFFF;
+      }
+
+      #page {
+          display: flex;
+      }
+
+      #main {
+          padding: 10px 70px;
+          text-align: center;
+          flex: 100%;
+          background-image: url("/MountGarfield.PNG");
+          background-repeat: no-repeat;
+          background-position: center;
+          background-size: cover;
+      }
+
+      hr {
+          border: none;
+          background-color: rgba(0, 0, 0, 0.2);
+          height: 1px;
+          width: 90%;
+      }
+
+      #footer {
+          background-color: #000000;
+          padding: 15px;
+          text-align: center;
+          color: #FFFFFF;
+      }
+
+      #footer * {
+          margin: 0;
+      }
+
+      #links-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+
+      #links-container a {
+        color: #FFFFFF;
+        padding: 5px;
+        background-color: rgba(0, 0, 0, 0.7);
+        text-decoration: none;
+        border: 1px solid rgba(255, 255, 255, 0.8);
+        margin: 5px;
+        border-radius: 8px / 8px;
+        min-width: 250px;
+      }
+
+      #links-container a:hover {
+        background-color: rgba(0, 0, 0, 0.8);
+      }
+
+      #image-container {
+        background-image: url(facepic.jpeg);
+        background-position: 50% 25%;
+        background-size: cover;
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        margin-left: calc(50% - 75px);
+      }
+
+      @media screen and (max-aspect-ratio: 3/2) {
+          #page {
+              flex-direction: column;
+          }
+      }
+
     </style>
   </head>
   <body>
-    <h1>Jeremy Sher</h1>
-    <p>
-      Click <a href="wave.html">here</a> for a cool wave program
-    </p>
+      <div id="header">
+          <h1>Jeremy Sher</h1>
+      </div>
+      <div id="navbar">
+          <a href="#" style="color: #FFF">Home</a>
+          <a href="#">Resume</a>
+          <a href="/wave.html">Projects</a>
+      </div>
+      <div id="page">
+          <div id="main">
+              <h1 style="color: white; text-shadow: 0px 0px 20px #000">Home</h1>
+              <div id="image-container"></div>
+              <p style="color: white; margin-bottom: 5px; text-shadow: 0px 0px 6px #000">Links</p>
+              <div id="links-container">
+                <a href="#">Resume</a>
+                <a href="/wave.html">Projects</a>
+                <a href="www.linkedin.com/in/jeremsher">LinkedIn</a>
+                <a href="https://github.com/jeremysher">Github</a>
+                <a href="/index.html">This exact webpage</a>
+              </div>
+          </div>
+      </div>
+      <div id="footer">
+          <h4>Copyright Jeremy Sher</h4>
+      </div>
   </body>
 </html>
