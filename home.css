@@ -1,0 +1,42 @@
+#main {
+    text-align: center;
+    flex: 100% !important;
+    background-image: url("/MountGarfield.PNG");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+#links-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 50px;
+}
+
+#links-container a {
+  color: #FFFFFF;
+  padding: 5px;
+  background-color: rgba(0, 0, 0, 0.7);
+  text-decoration: none;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  margin: 5px;
+  border-radius: 8px / 8px;
+  min-width: 250px;
+}
+
+#links-container a:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+#image-container {
+  background-image: url(facepic.jpeg);
+  background-position: 50% 25%;
+  background-size: cover;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  margin-left: calc(50% - 75px);
+  border: 1px solid white;
+}
