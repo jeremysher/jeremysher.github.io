@@ -65,6 +65,13 @@ body {
     padding: 10px 70px;
 }
 
+hr {
+    border: none;
+    background-color: rgba(0, 0, 0, 0.2);
+    height: 1px;
+    width: 90%;
+}
+
 #footer {
     background-color: #000000;
     padding: 15px;
