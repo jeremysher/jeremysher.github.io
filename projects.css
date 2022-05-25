@@ -40,7 +40,7 @@
 }
 
 @media screen and (max-aspect-ratio: 3/2) {
-    #page {
+    .row {
         flex-direction: column;
     }
 }
