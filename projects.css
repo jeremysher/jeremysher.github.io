@@ -9,11 +9,14 @@
     align-items: center;
 }
 
+.description {
+    width: 25%;
+}
+
 .preview {
-    width: 400px;
+    width: 30%;
     height: 200px;
     overflow: hidden;
-    background-image: url("/wave_screenshot.png");
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
@@ -23,6 +26,14 @@
     align-items: center;
     border: 1px solid #000000;
     border-radius: 6px / 6px;
+}
+
+#wave {
+    background-image: url("/wave_screenshot.png");
+}
+
+#basketball {
+    background-image: url("/basketball_screenshot.png");
 }
 
 .preview a {
@@ -42,5 +53,13 @@
 @media screen and (max-aspect-ratio: 3/2) {
     .row {
         flex-direction: column;
+    }
+
+    .description {
+        width: 60%
+    }
+
+    .preview {
+        width: 60%
     }
 }
