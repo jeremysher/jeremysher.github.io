@@ -1,0 +1,146 @@
+#page {
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 10px 0;
+}
+
+#navbar {
+    position: relative;
+}
+
+#cvs {
+    border: 1px solid black;
+    width: 99%;
+    height: 75vh;
+}
+
+#menu {
+    width: 99%;
+    min-height: 100px;
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 11px;
+}
+
+.slider-container {
+    margin: 2px 20px;
+    text-align: center;
+}
+
+.slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100px;
+    height: 5px;
+    background: #DDD;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: 0.2s;
+    transition: opacity 0.2s;
+    border-radius: 5px / 5px;
+}
+
+.slider:hover {
+    opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 12px;
+    height: 12px;
+    background: #FF0000;
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+.slider::-moz-slider-thumb {
+    width: 12px;
+    height: 12px;
+    background: #FF0000;
+    cursor: pointer;
+}
+
+.output {
+    font-weight: bold;
+}
+
+.arrow {
+    border: solid black;
+    border-width: 0 2px 2px 0;
+    display: inline-block;
+    padding: 3px;
+    opacity: 0.5;
+    margin: 0;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    cursor: pointer;
+}
+
+.arrow:hover {
+    opacity: 1;
+}
+
+.left {
+    transform: rotate(135deg);
+    -webkit-transform: rotate(135deg);
+}
+
+.right {
+    transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+}
+
+.text-container {
+    margin: 2px 20px;
+    text-align: center;
+}
+
+.textbox {
+    font-size: 11px;
+}
+
+.small {
+    width: 30px;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+.dropdown-container {
+    margin: 2px 20px;
+    text-align: center;
+}
+
+.dropdown {
+    font-size: 11px;
+}
+
+.button-container {
+    margin: 2px 20px;
+}
+
+.button {
+    background-color: #DDD;
+    border: 1px solid #555;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 6px 20px;
+}
+
+.button:hover {
+    background-color: #BBB;
+    border-color: #000;
+}
