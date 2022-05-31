@@ -1,28 +1,65 @@
 
+let resSlider = document.getElementById("res_slider");
+let resOutput = document.getElementById("res_slider_output");
+let resLeftIncr = document.getElementById("res_slider_left");
+let resRightIncr = document.getElementById("res_slider_right");
+const resIncrStep = 1; // must be a multiple of html step attribute
+resOutput.innerHTML = resSlider.value;
+resSlider.oninput = function() {
+    resOutput.innerHTML = this.value;
+}
+resLeftIncr.onclick = function() {
+    resSlider.value = parseFloat(resSlider.value) - resIncrStep;
+    resOutput.innerHTML = resSlider.value;
+    resSliderChanged();
+}
+resRightIncr.onclick = function() {
+    resSlider.value = parseFloat(resSlider.value) + resIncrStep;
+    resOutput.innerHTML = resSlider.value;
+    resSliderChanged();
+}
+
+resSlider.onchange = resSliderChanged;
+
+function resSliderChanged() {
+    cellSize = parseInt(resSlider.value);
+    init();
+}
+
+
 
 const cvs = document.getElementById("cvs");
 cvs.width = cvs.clientWidth;
 cvs.height = cvs.clientHeight;
 const ctx = cvs.getContext("2d");
-const cellSize = 1; // side length of each square
+let cellSize = 10; // side length of each square
 const healthy = '#AAA';
 const infected = '#511';
 const dead = '#100505';
-const deathChance = 0.1 / cellSize ** 2;
+let deathChance = 0.1 / cellSize ** 2;
 let cells = [];
-            
-for (let i = 0; i < cvs.width / cellSize; i++) {
-    cells.push([]);
-    for (let j = 0; j < cvs.height / cellSize; j++) {
-        cells[i].push(healthy);
-    }
-}
-// infect initial host
-let x = Math.floor(Math.random() * cells.length);
-let y = Math.floor(Math.random() * cells[0].length);
-cells[x][y] = infected;
-            
+
+init();
 draw();
+
+function init() {
+    cells = [];
+    for (let i = 0; i < cvs.width / cellSize; i++) {
+        cells.push([]);
+        for (let j = 0; j < cvs.height / cellSize; j++) {
+            cells[i].push(healthy);
+        }
+    }
+
+    // infect initial host
+    let x = Math.floor(Math.random() * cells.length);
+    let y = Math.floor(Math.random() * cells[0].length);
+    cells[x][y] = infected;
+    
+    deathChance = 0.1 / cellSize ** 2;
+}
+
+           
 function draw() {
     ctx.clearRect(0, 0, cvs.width, cvs.height);
     for (let i = 0; i < cells.length; i++) {
@@ -34,6 +71,7 @@ function draw() {
     act();
     requestAnimationFrame(draw);
 }
+
 function act() {
     for (let i = 0; i < cells.length; i++) {
         for (let j = 0; j < cells.length; j++) {
