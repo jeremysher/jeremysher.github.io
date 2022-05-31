@@ -1,4 +1,4 @@
-
+// Resolution Slider Code
 let resSlider = document.getElementById("res_slider");
 let resOutput = document.getElementById("res_slider_output");
 let resLeftIncr = document.getElementById("res_slider_left");
@@ -26,6 +26,33 @@ function resSliderChanged() {
     init();
 }
 
+// Death Rate Slider Code
+let deathSlider = document.getElementById("death_slider");
+let deathOutput = document.getElementById("death_slider_output");
+let deathLeftIncr = document.getElementById("death_slider_left");
+let deathRightIncr = document.getElementById("death_slider_right");
+const deathIncrStep = 0.01; // must be a multiple of html step attribute
+deathOutput.innerHTML = deathSlider.value;
+deathSlider.oninput = function() {
+    deathOutput.innerHTML = this.value;
+}
+deathLeftIncr.onclick = function() {
+    deathSlider.value = parseFloat(deathSlider.value) - deathIncrStep;
+    deathOutput.innerHTML = deathSlider.value;
+    deathSliderChanged();
+}
+deathRightIncr.onclick = function() {
+    deathSlider.value = parseFloat(deathSlider.value) + deathIncrStep;
+    deathOutput.innerHTML = deathSlider.value;
+    deathSliderChanged();
+}
+
+deathSlider.onchange = deathSliderChanged;
+
+function deathSliderChanged() {
+    deathFactor = parseFloat(deathSlider.value);
+    deathChance = deathFactor / cellSize ** 2;
+}
 
 
 const cvs = document.getElementById("cvs");
@@ -36,7 +63,8 @@ let cellSize = 10; // side length of each square
 const healthy = '#AAA';
 const infected = '#511';
 const dead = '#100505';
-let deathChance = 0.1 / cellSize ** 2;
+let deathFactor = 0.1;
+let deathChance = deathFactor / cellSize ** 2;
 let cells = [];
 
 init();
@@ -56,7 +84,7 @@ function init() {
     let y = Math.floor(Math.random() * cells[0].length);
     cells[x][y] = infected;
     
-    deathChance = 0.1 / cellSize ** 2;
+    deathChance = deathFactor / cellSize ** 2;
 }
 
            
