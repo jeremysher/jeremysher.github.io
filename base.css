@@ -78,6 +78,18 @@ hr {
     width: 90%;
 }
 
+.years {
+    color: #666;
+    font-weight: lighter;
+    font-size: small;
+}
+
+.description {
+    font-size: 14px;
+    color: #222;
+    margin-left: 15px;
+}
+
 #footer {
     background-color: #000000;
     padding: 15px;
